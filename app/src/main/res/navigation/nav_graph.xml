@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentSplash">
+
+    <fragment
+        android:id="@+id/fragmentSplash"
+        android:name="dev.pegasus.mediastoreapi.ui.fragments.FragmentSplash"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_fragmentSplash_to_fragmentSingleSelection"
+            app:destination="@id/fragmentSingleSelection" />
+        <action
+            android:id="@+id/action_fragmentSplash_to_fragmentMultipleSelection"
+            app:destination="@id/fragmentMultipleSelection" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSingleSelection"
+        android:name="dev.pegasus.mediastoreapi.ui.fragments.FragmentSingleSelection"
+        android:label="fragment_single_selection"
+        tools:layout="@layout/fragment_single_selection" />
+    <fragment
+        android:id="@+id/fragmentMultipleSelection"
+        android:name="dev.pegasus.mediastoreapi.ui.fragments.FragmentMultipleSelection"
+        android:label="fragment_multiple_selection"
+        tools:layout="@layout/fragment_multiple_selection" />
+</navigation>
