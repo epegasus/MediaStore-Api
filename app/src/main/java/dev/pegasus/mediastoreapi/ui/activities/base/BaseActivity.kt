@@ -17,7 +17,7 @@ import dev.pegasus.mediastoreapi.R
  *      -> https://stackoverflow.com/users/20440272/sohaib-ahmed
  */
 
-abstract class BaseActivity<T : ViewBinding>(val bindingFactory: (LayoutInflater) -> T) : AppCompatActivity() {
+abstract class BaseActivity<T : ViewBinding>(private val bindingFactory: (LayoutInflater) -> T) : AppCompatActivity() {
 
     protected val binding: T by lazy { bindingFactory(layoutInflater) }
 
