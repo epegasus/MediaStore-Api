@@ -1,4 +1,4 @@
-package dev.pegasus.mediastoreapi.ui.activities.base
+package dev.pegasus.mediastoreapi.ui.general.activities.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

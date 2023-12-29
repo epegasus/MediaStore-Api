@@ -1,4 +1,4 @@
-package dev.pegasus.mediastoreapi.ui.fragments.base
+package dev.pegasus.mediastoreapi.ui.general.fragments.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
