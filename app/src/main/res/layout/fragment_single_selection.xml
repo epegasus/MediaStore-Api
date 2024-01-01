@@ -7,7 +7,7 @@
     tools:context=".ui.singleSelection.ui.FragmentSingleSelection">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/siv_back"
+        android:id="@+id/mb_back"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,21 +19,23 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_folder"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toBottomOf="@+id/siv_back"
+        app:layout_constraintBottom_toBottomOf="@+id/mb_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/siv_back"
-        app:layout_constraintTop_toTopOf="@+id/siv_back">
+        app:layout_constraintStart_toEndOf="@+id/mb_back"
+        app:layout_constraintTop_toTopOf="@+id/mb_back">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:id="@+id/et_folder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:inputType="none"
+            tools:ignore="LabelFor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,7 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/siv_back"
+        app:layout_constraintTop_toBottomOf="@+id/mb_back"
         app:layout_constraintVertical_bias="0.0"
         app:spanCount="4" />
 

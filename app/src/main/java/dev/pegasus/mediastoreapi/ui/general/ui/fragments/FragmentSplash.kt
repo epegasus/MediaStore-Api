@@ -1,9 +1,9 @@
-package dev.pegasus.mediastoreapi.ui.general.fragments
+package dev.pegasus.mediastoreapi.ui.general.ui.fragments
 
 import androidx.navigation.fragment.findNavController
 import dev.pegasus.mediastoreapi.R
 import dev.pegasus.mediastoreapi.databinding.FragmentSplashBinding
-import dev.pegasus.mediastoreapi.ui.general.fragments.base.BaseFragment
+import dev.pegasus.mediastoreapi.ui.general.ui.fragments.base.BaseFragment
 
 class FragmentSplash : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding::inflate) {
 

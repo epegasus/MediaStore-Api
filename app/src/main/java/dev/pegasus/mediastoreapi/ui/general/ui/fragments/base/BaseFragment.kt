@@ -1,11 +1,13 @@
-package dev.pegasus.mediastoreapi.ui.general.fragments.base
+package dev.pegasus.mediastoreapi.ui.general.ui.fragments.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import dev.pegasus.mediastoreapi.ui.general.helper.utils.Constants.TAG
 
 /**
  * @Author: SOHAIB AHMED
@@ -18,7 +20,11 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseFragment<T : ViewBinding>(private val bindingFactory: (LayoutInflater) -> T) : Fragment() {
 
     private var _binding: T? = null
-    protected val binding get() = _binding
+    protected val binding: T?
+        get() {
+            Log.e(TAG, "$bindingFactory", NullPointerException("Binding object is null"))
+            return _binding
+        }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = bindingFactory(layoutInflater)

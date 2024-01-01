@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.parcelize)
+    alias(libs.plugins.navSafeArgs)
 }
 
 android {
@@ -40,6 +42,9 @@ android {
 }
 
 dependencies {
+    // Modules
+    implementation(project(":mediaStore"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -49,4 +54,10 @@ dependencies {
     // Navigational Components
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
+
+    // Paging 3
+    implementation(libs.androidx.paging.runtime)
+
+    // Glide
+    implementation(libs.glide)
 }
