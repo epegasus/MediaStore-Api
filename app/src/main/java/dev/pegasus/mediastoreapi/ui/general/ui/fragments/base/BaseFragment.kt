@@ -17,12 +17,14 @@ import dev.pegasus.mediastoreapi.ui.general.helper.utils.Constants.TAG
  *      -> https://stackoverflow.com/users/20440272/sohaib-ahmed
  */
 
-abstract class BaseFragment<T : ViewBinding>(private val bindingFactory: (LayoutInflater) -> T) : Fragment() {
+abstract class BaseFragment<T : ViewBinding>(private val bindingFactory: (LayoutInflater) -> T) : BasePermissionFragment() {
 
     private var _binding: T? = null
     protected val binding: T?
         get() {
-            Log.e(TAG, "$bindingFactory", NullPointerException("Binding object is null"))
+            if (_binding == null) {
+                Log.e(TAG, "$bindingFactory", NullPointerException("Binding object is null"))
+            }
             return _binding
         }
 

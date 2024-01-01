@@ -14,6 +14,7 @@ navigationUiKtx = "2.7.6"
 navigationFragmentKtx = "2.7.6"
 pagingRuntime = "3.2.1"
 glide = "4.16.0"
+swiperefreshlayout = "1.1.0"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -38,3 +39,4 @@ androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", 
 
 # Glide
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
