@@ -1,5 +1,6 @@
 package dev.pegasus.mediastoreapi.ui.singleSelection.ui
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -7,6 +8,7 @@ import androidx.paging.LoadState
 import dev.pegasus.mediastoreapi.R
 import dev.pegasus.mediastoreapi.databinding.FragmentSingleSelectionBinding
 import dev.pegasus.mediastoreapi.ui.general.helper.models.Photo
+import dev.pegasus.mediastoreapi.ui.general.helper.utils.Constants.TAG
 import dev.pegasus.mediastoreapi.ui.general.helper.viewmodels.GalleryViewModel
 import dev.pegasus.mediastoreapi.ui.general.ui.fragments.base.BaseFragment
 import dev.pegasus.mediastoreapi.ui.singleSelection.helper.SingleGalleryAdapter
@@ -41,6 +43,7 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
     }
 
     private fun fetchData() {
+        Log.d(TAG, "fetchData: Starting...")
         lifecycleScope.launch {
             galleryViewModel.fetchPhotos().collectLatest {
                 singleGalleryAdapter.submitData(it)

@@ -21,7 +21,7 @@ class FragmentPhoto : BaseFragment<FragmentPhotoBinding>(FragmentPhotoBinding::i
     }
 
     private fun setUI() {
-        binding?.sivImage?.loadImage(navArgs.photo.file.toString())
+        binding?.sivImage?.loadImage(navArgs.photo.file.toString(), binding?.progressBar)
     }
 
     private fun onInfoClick() {

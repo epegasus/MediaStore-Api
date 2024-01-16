@@ -28,8 +28,8 @@ class SingleGalleryAdapter(private val callback: (photo: Photo) -> Unit) : Pagin
         val currentItem: Photo? = getItem(position)
         holder.binding.apply {
             currentItem?.let { item ->
-                sivImageItemPhoto.loadImage(item.file.toString())
                 root.setOnClickListener { callback.invoke(item) }
+                sivImageItemPhoto.loadImage(item.file.toString(), progressBarItemPhoto)
             }
         }
     }

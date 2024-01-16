@@ -29,7 +29,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         Log.i(TAG, "GalleryViewModel: fetchPhotos: calling...")
         return Pager(
             config = PagingConfig(
-                pageSize = 100
+                pageSize = 50
             ),
             pagingSourceFactory = {
                 PhotoPagingSource(getApplication<Application>().contentResolver)

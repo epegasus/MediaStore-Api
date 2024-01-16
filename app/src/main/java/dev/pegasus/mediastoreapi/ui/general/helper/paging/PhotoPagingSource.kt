@@ -26,16 +26,16 @@ class PhotoPagingSource(private val contentResolver: ContentResolver) : PagingSo
     private val conversionUtils by lazy { ConversionUtils() }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Photo> {
+        Log.d(TAG, "PhotoPagingSource: load: called")
         return try {
             // Paging
             val pageNumber = params.key ?: 0
             val pageSize = params.loadSize
             val offset = pageNumber * pageSize
-            Log.d(TAG, "PhotoPagingSource: load: pageNumber: $pageNumber, pageSize: $pageSize, offset: $offset")
 
             // Initializing Cursor
             val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            val queryUri: Uri = uri.buildUpon().encodedQuery("limit=$pageSize,$offset").build()
+            val queryUri = uri.buildUpon().encodedQuery("limit=$pageSize,$offset").build()
             val projection = arrayOf(
                 MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.DATA,
@@ -44,14 +44,14 @@ class PhotoPagingSource(private val contentResolver: ContentResolver) : PagingSo
                 MediaStore.Images.Media.SIZE
             )
             //val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC LIMIT $offset,$pageSize"
-            val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
+            val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
 
             val cursor = contentResolver.query(
                 queryUri,
                 projection,
                 null,
                 null,
-                sortOrder
+                sortOrder,
             )
             val photos = mutableListOf<Photo>()
 
@@ -87,10 +87,10 @@ class PhotoPagingSource(private val contentResolver: ContentResolver) : PagingSo
                     }
                 }
             }
-            Log.i(TAG, "PhotoPagingSource: submitting Page: $pageNumber with ${photos.size} photos")
+            Log.d(TAG, "PhotoPagingSource: submitting Page: $pageNumber pageNumber: $pageNumber, pageSize: $pageSize, offset: $offset with Size: ${photos.size} photos")
             LoadResult.Page(
                 data = photos,
-                prevKey = if (pageNumber == 0) null else pageNumber - 1,
+                prevKey = null, // Only paging forward.
                 nextKey = if (photos.isEmpty()) null else pageNumber + 1
             )
         } catch (e: Exception) {
@@ -99,7 +99,10 @@ class PhotoPagingSource(private val contentResolver: ContentResolver) : PagingSo
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Photo>): Int {
-        return 0
+    override fun getRefreshKey(state: PagingState<Int, Photo>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
     }
 }
