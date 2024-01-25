@@ -8,5 +8,4 @@ class FragmentMultipleSelection : BaseFragment<FragmentMultipleSelectionBinding>
     override fun onViewCreated() {
 
     }
-
 }

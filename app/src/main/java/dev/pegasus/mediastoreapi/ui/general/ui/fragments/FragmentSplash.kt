@@ -10,7 +10,7 @@ class FragmentSplash : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
     override fun onViewCreated() {
         binding?.let {
             it.mbSingleSelection.setOnClickListener { findNavController().navigate(R.id.action_fragmentSplash_to_fragmentSingleSelection) }
-            it.mbMultipleSelection.setOnClickListener { findNavController().navigate(R.id.action_fragmentSplash_to_fragmentSingleSelection) }
+            it.mbMultipleSelection.setOnClickListener { findNavController().navigate(R.id.action_fragmentSplash_to_fragmentMultipleSelection) }
         }
     }
 }

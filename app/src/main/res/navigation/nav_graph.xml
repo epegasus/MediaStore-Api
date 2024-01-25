@@ -9,37 +9,56 @@
         android:id="@+id/fragmentSplash"
         android:name="dev.pegasus.mediastoreapi.ui.general.ui.fragments.FragmentSplash"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_fragmentSplash_to_fragmentSingleSelection"
-            app:destination="@id/fragmentSingleSelection" />
+            app:destination="@id/fragmentSingleSelection"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_fragmentSplash_to_fragmentMultipleSelection"
-            app:destination="@id/fragmentMultipleSelection" />
+            app:destination="@id/fragmentMultipleSelection"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/fragmentSingleSelection"
         android:name="dev.pegasus.mediastoreapi.ui.singleSelection.ui.FragmentSingleSelection"
         android:label="fragment_single_selection"
-        tools:layout="@layout/fragment_single_selection" >
+        tools:layout="@layout/fragment_single_selection">
         <action
             android:id="@+id/action_fragmentSingleSelection_to_fragmentPhoto"
-            app:destination="@id/fragmentPhoto" />
+            app:destination="@id/fragmentPhoto"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/fragmentMultipleSelection"
         android:name="dev.pegasus.mediastoreapi.ui.multipleSelection.ui.FragmentMultipleSelection"
         android:label="fragment_multiple_selection"
-        tools:layout="@layout/fragment_multiple_selection" >
+        tools:layout="@layout/fragment_multiple_selection">
         <action
             android:id="@+id/action_fragmentMultipleSelection_to_fragmentPhoto"
-            app:destination="@id/fragmentPhoto" />
+            app:destination="@id/fragmentPhoto"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/fragmentPhoto"
         android:name="dev.pegasus.mediastoreapi.ui.general.ui.fragments.FragmentPhoto"
         android:label="fragment_photo"
-        tools:layout="@layout/fragment_photo" >
+        tools:layout="@layout/fragment_photo">
         <argument
             android:name="photo"
             app:argType="dev.pegasus.mediastoreapi.ui.general.helper.models.Photo" />

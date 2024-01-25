@@ -1,7 +1,6 @@
 package dev.pegasus.mediastoreapi.ui.general.helper.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -10,7 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dev.pegasus.mediastoreapi.ui.general.helper.models.Photo
 import dev.pegasus.mediastoreapi.ui.general.helper.paging.PhotoPagingSource
-import dev.pegasus.mediastoreapi.ui.general.helper.utils.Constants.TAG
+import dev.pegasus.mediastoreapi.ui.general.helper.utils.ConversionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -23,17 +22,21 @@ import kotlinx.coroutines.flow.flowOn
  *      -> https://stackoverflow.com/users/20440272/sohaib-ahmed
  */
 
-class GalleryViewModel(application: Application) : AndroidViewModel(application) {
+class GalleryViewModel(private val application: Application) : AndroidViewModel(application) {
+
+    private val conversionUtils by lazy { ConversionUtils() }
 
     fun fetchPhotos(): Flow<PagingData<Photo>> {
-        Log.i(TAG, "GalleryViewModel: fetchPhotos: calling...")
         return Pager(
             config = PagingConfig(
-                pageSize = 50
+                pageSize = 20,
+                prefetchDistance = 30
             ),
             pagingSourceFactory = {
-                PhotoPagingSource(getApplication<Application>().contentResolver)
+                PhotoPagingSource(application.contentResolver, conversionUtils)
             }
-        ).flow.cachedIn(viewModelScope)
+        ).flow
+            .flowOn(Dispatchers.IO)
+            .cachedIn(viewModelScope)
     }
 }

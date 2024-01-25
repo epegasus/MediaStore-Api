@@ -46,11 +46,11 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:gravity="end"
-        android:text="@string/state"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tl_folder" />
+        app:layout_constraintTop_toBottomOf="@+id/tl_folder"
+        tools:text="@string/state" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/srl_refresh"

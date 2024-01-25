@@ -1,6 +1,5 @@
 package dev.pegasus.mediastoreapi.ui.singleSelection.ui
 
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -8,12 +7,13 @@ import androidx.paging.LoadState
 import dev.pegasus.mediastoreapi.R
 import dev.pegasus.mediastoreapi.databinding.FragmentSingleSelectionBinding
 import dev.pegasus.mediastoreapi.ui.general.helper.models.Photo
-import dev.pegasus.mediastoreapi.ui.general.helper.utils.Constants.TAG
 import dev.pegasus.mediastoreapi.ui.general.helper.viewmodels.GalleryViewModel
 import dev.pegasus.mediastoreapi.ui.general.ui.fragments.base.BaseFragment
 import dev.pegasus.mediastoreapi.ui.singleSelection.helper.SingleGalleryAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
+const val TAG = "dummy"
 
 class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(FragmentSingleSelectionBinding::inflate) {
 
@@ -23,13 +23,13 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
     override fun onViewCreated() {
         initRecyclerView()
         askForPermissions()
+        initObserver()
 
         binding?.let {
             it.mbBack.setOnClickListener { findNavController().popBackStack() }
             it.srlRefresh.setOnRefreshListener { singleGalleryAdapter.refresh() }
         }
     }
-
 
     private fun initRecyclerView() {
         binding?.rvList?.adapter = singleGalleryAdapter
@@ -43,15 +43,15 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
     }
 
     private fun fetchData() {
-        Log.d(TAG, "fetchData: Starting...")
         lifecycleScope.launch {
-            galleryViewModel.fetchPhotos().collectLatest {
+            galleryViewModel.fetchPhotos().collect {
                 singleGalleryAdapter.submitData(it)
             }
         }
+    }
 
+    private fun initObserver() {
         lifecycleScope.launch {
-            binding?.mtvStates?.text = getString(R.string.state, "Fetching...")
             singleGalleryAdapter.loadStateFlow.collect { loadStates ->
                 binding?.srlRefresh?.isRefreshing = loadStates.refresh is LoadState.Loading
                 when (loadStates.refresh) {
@@ -60,17 +60,15 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
                     }
 
                     is LoadState.NotLoading -> {
-                        binding?.mtvStates?.text = getString(R.string.state, "Not loading...")
+                        binding?.mtvStates?.text = getString(R.string.state, "Completed")
                     }
 
                     is LoadState.Error -> {
                         val errorState = loadStates.refresh as LoadState.Error
-                        binding?.mtvStates?.text = getString(R.string.state, "Error: ${errorState.error.message}")
+                        binding?.mtvStates?.text = getString(R.string.state, "Error: ${errorState.error}")
                     }
                 }
             }
-
-
         }
     }
 
