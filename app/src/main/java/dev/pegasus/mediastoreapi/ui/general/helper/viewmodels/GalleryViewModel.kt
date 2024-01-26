@@ -24,15 +24,15 @@ import kotlinx.coroutines.flow.flowOn
 
 class GalleryViewModel(private val application: Application) : AndroidViewModel(application) {
 
-    private val conversionUtils by lazy { ConversionUtils() }
     private val pageSize = 100
+    private val conversionUtils by lazy { ConversionUtils() }
 
     fun fetchPhotos(): Flow<PagingData<Photo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = pageSize,
                 initialLoadSize = pageSize,
-                prefetchDistance = 30,
+                prefetchDistance = 50,
             ),
             pagingSourceFactory = {
                 PhotoPagingSource(application.contentResolver, conversionUtils)

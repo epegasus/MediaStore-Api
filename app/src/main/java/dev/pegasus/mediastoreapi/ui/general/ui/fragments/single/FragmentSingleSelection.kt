@@ -1,5 +1,6 @@
-package dev.pegasus.mediastoreapi.ui.singleSelection.ui
+package dev.pegasus.mediastoreapi.ui.general.ui.fragments.single
 
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -7,21 +8,19 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import dev.pegasus.mediastoreapi.R
 import dev.pegasus.mediastoreapi.databinding.FragmentSingleSelectionBinding
+import dev.pegasus.mediastoreapi.ui.general.helper.adapters.AdapterSingleSelection
+import dev.pegasus.mediastoreapi.ui.general.helper.extensions.withDelay
 import dev.pegasus.mediastoreapi.ui.general.helper.models.Photo
 import dev.pegasus.mediastoreapi.ui.general.helper.viewmodels.GalleryViewModel
 import dev.pegasus.mediastoreapi.ui.general.ui.fragments.base.BaseFragment
-import dev.pegasus.mediastoreapi.ui.singleSelection.helper.SingleGalleryAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
-const val TAG = "dummy"
-
 class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(FragmentSingleSelectionBinding::inflate) {
 
-    private val singleGalleryAdapter by lazy { SingleGalleryAdapter(callback) }
+    private val adapterSingleSelection by lazy { AdapterSingleSelection(callback) }
     private val galleryViewModel: GalleryViewModel by viewModels()
 
     override fun onViewCreated() {
@@ -31,35 +30,33 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
 
         binding?.let {
             it.mbBack.setOnClickListener { findNavController().popBackStack() }
-            it.srlRefresh.setOnRefreshListener { singleGalleryAdapter.refresh() }
+            it.srlRefresh.setOnRefreshListener { adapterSingleSelection.refresh() }
         }
     }
 
     private fun initRecyclerView() {
-        binding?.rvList?.adapter = singleGalleryAdapter
+        binding?.rvList?.adapter = adapterSingleSelection
         binding?.rvList?.itemAnimator = DefaultItemAnimator()
     }
 
     private fun askForPermissions() {
         when (checkStoragePermission()) {
-            true -> fetchData()
+            true -> withDelay(500) { fetchData() }
             false -> askStoragePermission { fetchData() }
         }
     }
 
     private fun fetchData() {
         lifecycleScope.launch {
-            withContext(Dispatchers.Default) {
-                galleryViewModel.fetchPhotos().collectLatest {
-                    singleGalleryAdapter.submitData(it)
-                }
+            galleryViewModel.fetchPhotos().collectLatest {
+                adapterSingleSelection.submitData(it)
             }
         }
     }
 
     private fun initObserver() {
         lifecycleScope.launch {
-            singleGalleryAdapter.loadStateFlow.collect { loadStates ->
+            adapterSingleSelection.loadStateFlow.collect { loadStates ->
                 binding?.srlRefresh?.isRefreshing = loadStates.refresh is LoadState.Loading
                 when (loadStates.refresh) {
                     is LoadState.Loading -> {
@@ -67,6 +64,7 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
                     }
 
                     is LoadState.NotLoading -> {
+                        binding?.progressBar?.visibility = View.GONE
                         binding?.mtvStates?.text = getString(R.string.state, "Completed")
                     }
 

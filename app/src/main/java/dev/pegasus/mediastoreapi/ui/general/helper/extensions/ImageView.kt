@@ -24,9 +24,6 @@ import dev.pegasus.mediastoreapi.R
  *      -> https://stackoverflow.com/users/20440272/sohaib-ahmed
  */
 
-
-//requestOptions.placeholder(R.drawable.ic_altered_placeholder)
-
 fun ShapeableImageView.loadImage(filePath: String) {
     val circularProgressDrawable = CircularProgressDrawable(context)
     circularProgressDrawable.strokeWidth = 5f
@@ -39,11 +36,10 @@ fun ShapeableImageView.loadImage(filePath: String) {
             RequestOptions()
                 .placeholder(circularProgressDrawable)
                 .error(R.drawable.gif_glide_error)
-                .override(300, 300)
                 .centerCrop()
         )
         .load(filePath)
-        .transition(DrawableTransitionOptions.withCrossFade())
+        .transition(DrawableTransitionOptions.withCrossFade(DrawableCrossFadeFactory.Builder(500).setCrossFadeEnabled(true).build()))
         .into(this)
 }
 
@@ -53,7 +49,6 @@ fun ShapeableImageView.loadImage(filePath: String, progressBar: ProgressBar?) {
         .setDefaultRequestOptions(
             RequestOptions()
                 .error(R.drawable.gif_glide_error)
-                .override(300, 300)
                 .centerCrop()
         )
         .load(filePath)

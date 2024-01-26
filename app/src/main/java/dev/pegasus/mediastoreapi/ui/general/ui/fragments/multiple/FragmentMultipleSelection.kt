@@ -1,4 +1,4 @@
-package dev.pegasus.mediastoreapi.ui.multipleSelection.ui
+package dev.pegasus.mediastoreapi.ui.general.ui.fragments.multiple
 
 import dev.pegasus.mediastoreapi.databinding.FragmentMultipleSelectionBinding
 import dev.pegasus.mediastoreapi.ui.general.ui.fragments.base.BaseFragment

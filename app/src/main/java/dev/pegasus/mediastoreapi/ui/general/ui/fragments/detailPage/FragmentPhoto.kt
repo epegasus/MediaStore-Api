@@ -1,4 +1,4 @@
-package dev.pegasus.mediastoreapi.ui.general.ui.fragments
+package dev.pegasus.mediastoreapi.ui.general.ui.fragments.detailPage
 
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs

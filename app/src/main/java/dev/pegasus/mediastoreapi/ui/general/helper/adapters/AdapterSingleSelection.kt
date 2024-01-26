@@ -1,4 +1,4 @@
-package dev.pegasus.mediastoreapi.ui.singleSelection.helper
+package dev.pegasus.mediastoreapi.ui.general.helper.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,7 +17,7 @@ import dev.pegasus.mediastoreapi.ui.general.helper.models.Photo
  *      -> https://stackoverflow.com/users/20440272/sohaib-ahmed
  */
 
-class SingleGalleryAdapter(private val callback: (photo: Photo) -> Unit) : PagingDataAdapter<Photo, SingleGalleryAdapter.CustomViewHolder>(DiffCallback) {
+class AdapterSingleSelection(private val callback: (photo: Photo) -> Unit) : PagingDataAdapter<Photo, AdapterSingleSelection.CustomViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val binding = ItemPhotoBinding.inflate(LayoutInflater.from(parent.context))

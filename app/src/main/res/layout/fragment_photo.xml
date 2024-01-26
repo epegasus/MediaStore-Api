@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.general.ui.fragments.FragmentPhoto">
+    tools:context=".ui.general.ui.fragments.detailPage.FragmentPhoto">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/siv_image"

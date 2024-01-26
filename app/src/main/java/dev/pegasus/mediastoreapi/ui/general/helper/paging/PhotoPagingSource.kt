@@ -14,6 +14,7 @@ import dev.pegasus.mediastoreapi.ui.general.helper.models.Photo
 import dev.pegasus.mediastoreapi.ui.general.helper.utils.Constants.TAG
 import dev.pegasus.mediastoreapi.ui.general.helper.utils.ConversionUtils
 import java.io.File
+import java.lang.NullPointerException
 
 /**
  * @Author: SOHAIB AHMED
@@ -25,8 +26,15 @@ import java.io.File
 
 class PhotoPagingSource(private val contentResolver: ContentResolver, private val conversionUtils: ConversionUtils) : PagingSource<Int, Photo>() {
 
+    var load = false
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Photo> {
         return try {
+
+            if (load) {
+                throw NullPointerException("asd")
+            }
+            load = true
 
             val pageNumber = params.key ?: 0
             val pageSize = params.loadSize
@@ -126,95 +134,3 @@ class PhotoPagingSource(private val contentResolver: ContentResolver, private va
         }
     }
 }
-
-
-/*
-class PhotoPagingSource(private val contentResolver: ContentResolver, private val conversionUtils: ConversionUtils) : PagingSource<Int, Photo>() {
-
-    private var isShown = false
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Photo> {
-        Log.d(TAG, "PhotoPagingSource: load: called")
-        */
-/*if (isShown) return LoadResult.Error(NullPointerException(""))
-        isShown = true*//*
-
-        return try {
-            // Paging
-            val pageNumber = params.key ?: 0
-            val pageSize = params.loadSize
-            val offset = pageNumber * pageSize
-
-            // Initializing Cursor
-            val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            val queryUri = uri.buildUpon().encodedQuery("limit=$pageSize,$offset").build()
-            val projection = arrayOf(
-                MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media.DATE_ADDED,
-                MediaStore.Images.Media.DATE_MODIFIED,
-                MediaStore.Images.Media.SIZE
-            )
-            //val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC LIMIT $offset,$pageSize"
-            val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
-
-            val cursor = contentResolver.query(
-                queryUri,
-                projection,
-                null,
-                null,
-                sortOrder,
-            )
-            val photos = mutableListOf<Photo>()
-
-            cursor?.use { c ->
-                val columnId = c.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-                val columnData = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                val columnAdded = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED)
-                val columnModified = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED)
-                val columnSize = c.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
-
-                while (c.moveToNext()) {
-                    val size = c.getLong(columnSize)
-                    val dateModified = c.getLong(columnModified)
-                    val dateAdded = c.getLong(columnAdded)
-                    val fileUri: Uri = ContentUris.withAppendedId(MediaStore.Images.Media.getContentUri("external"), c.getLong(columnId))
-                    val file = File(c.getString(columnData))
-                    val pid = "${file}_${c.getLong(columnId)}_${dateAdded}"
-
-                    val photo = Photo(
-                        id = pid,
-                        file = file,
-                        fileUri = fileUri,
-                        fileName = file.name,
-                        creationDateTime = conversionUtils.getDateTime(dateAdded * 1000),
-                        modifiedDateTime = conversionUtils.getDateTime(dateModified * 1000),
-                        fileSize = conversionUtils.getFileSize(size),
-                        creationTimestamp = dateAdded,
-                        modifiedTimestamp = dateModified,
-                        fileSizeBytes = size
-                    )
-                    if (photo.file.isFileExist()) {
-                        photos.add(photo)
-                    }
-                }
-            }
-            Log.d(TAG, "PhotoPagingSource: submitting -> pageNumber: $pageNumber, pageSize: $pageSize, offset: $offset with Size: ${photos.size} photos")
-            LoadResult.Page(
-                data = photos,
-                prevKey = null, // Only paging forward.
-                nextKey = if (photos.isEmpty()) null else pageNumber + 1
-            )
-        } catch (e: Exception) {
-            Log.e(TAG, "PhotoPagingSource: load: Exception", e)
-            LoadResult.Error(e)
-        }
-    }
-
-    override fun getRefreshKey(state: PagingState<Int, Photo>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
-        }
-    }
-}*/
