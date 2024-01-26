@@ -4,14 +4,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DefaultItemAnimator
 import dev.pegasus.mediastoreapi.R
 import dev.pegasus.mediastoreapi.databinding.FragmentSingleSelectionBinding
 import dev.pegasus.mediastoreapi.ui.general.helper.models.Photo
 import dev.pegasus.mediastoreapi.ui.general.helper.viewmodels.GalleryViewModel
 import dev.pegasus.mediastoreapi.ui.general.ui.fragments.base.BaseFragment
 import dev.pegasus.mediastoreapi.ui.singleSelection.helper.SingleGalleryAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 const val TAG = "dummy"
 
@@ -33,6 +37,7 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
 
     private fun initRecyclerView() {
         binding?.rvList?.adapter = singleGalleryAdapter
+        binding?.rvList?.itemAnimator = DefaultItemAnimator()
     }
 
     private fun askForPermissions() {
@@ -44,8 +49,10 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
 
     private fun fetchData() {
         lifecycleScope.launch {
-            galleryViewModel.fetchPhotos().collect {
-                singleGalleryAdapter.submitData(it)
+            withContext(Dispatchers.Default) {
+                galleryViewModel.fetchPhotos().collectLatest {
+                    singleGalleryAdapter.submitData(it)
+                }
             }
         }
     }

@@ -1,5 +1,7 @@
 package dev.pegasus.mediastoreapi.ui.general.helper.extensions
 
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +17,12 @@ import kotlinx.coroutines.launch
  *      -> https://github.com/epegasus
  *      -> https://stackoverflow.com/users/20440272/sohaib-ahmed
  */
+
+fun Fragment.withDelay(delay: Long = 300, callback: () -> Unit) {
+    Handler(Looper.getMainLooper()).postDelayed({
+        if (isAdded) callback.invoke()
+    }, delay)
+}
 
 fun Fragment.showToast(any: Any) {
     context?.let {

@@ -70,7 +70,7 @@ class PhotoPagingSource(private val contentResolver: ContentResolver, private va
                 putString(ContentResolver.QUERY_ARG_SQL_SELECTION, null)
                 putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, null)
                 // sort
-                putString(ContentResolver.QUERY_ARG_SORT_COLUMNS, sort)
+                putStringArray(ContentResolver.QUERY_ARG_SORT_COLUMNS, arrayOf(sort))
                 putInt(ContentResolver.QUERY_ARG_SORT_DIRECTION, ContentResolver.QUERY_SORT_DIRECTION_DESCENDING)
                 // limit, offset
                 putInt(ContentResolver.QUERY_ARG_LIMIT, pageSize)

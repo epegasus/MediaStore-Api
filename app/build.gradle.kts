@@ -60,5 +60,8 @@ dependencies {
 
     // Glide
     implementation(libs.glide)
+    //kapt(libs.glide.kapt)
+
+    // SwipeRefreshLayout
     implementation(libs.androidx.swiperefreshlayout)
 }
