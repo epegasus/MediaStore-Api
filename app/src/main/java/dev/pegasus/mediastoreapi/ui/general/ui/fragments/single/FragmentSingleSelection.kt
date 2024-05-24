@@ -1,22 +1,17 @@
 package dev.pegasus.mediastoreapi.ui.general.ui.fragments.single
 
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
-import androidx.recyclerview.widget.DefaultItemAnimator
 import dev.pegasus.mediastoreapi.R
 import dev.pegasus.mediastoreapi.databinding.FragmentSingleSelectionBinding
 import dev.pegasus.mediastoreapi.ui.general.helper.adapters.AdapterSingleSelection
 import dev.pegasus.mediastoreapi.ui.general.helper.extensions.withDelay
 import dev.pegasus.mediastoreapi.ui.general.helper.models.Photo
+import dev.pegasus.mediastoreapi.ui.general.helper.utils.Constants.TAG
 import dev.pegasus.mediastoreapi.ui.general.helper.viewmodels.GalleryViewModel
 import dev.pegasus.mediastoreapi.ui.general.ui.fragments.base.BaseFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(FragmentSingleSelectionBinding::inflate) {
 
@@ -28,15 +23,11 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
         askForPermissions()
         initObserver()
 
-        binding?.let {
-            it.mbBack.setOnClickListener { findNavController().popBackStack() }
-            it.srlRefresh.setOnRefreshListener { adapterSingleSelection.refresh() }
-        }
+        binding?.mbBack?.setOnClickListener { findNavController().popBackStack() }
     }
 
     private fun initRecyclerView() {
         binding?.rvList?.adapter = adapterSingleSelection
-        binding?.rvList?.itemAnimator = DefaultItemAnimator()
     }
 
     private fun askForPermissions() {
@@ -47,33 +38,15 @@ class FragmentSingleSelection : BaseFragment<FragmentSingleSelectionBinding>(Fra
     }
 
     private fun fetchData() {
-        lifecycleScope.launch {
-            galleryViewModel.fetchPhotos().collectLatest {
-                adapterSingleSelection.submitData(it)
-            }
-        }
+        binding?.mtvStates?.text = getString(R.string.state, "Loading...")
+        galleryViewModel.fetchPhotos()
     }
 
     private fun initObserver() {
-        lifecycleScope.launch {
-            adapterSingleSelection.loadStateFlow.collect { loadStates ->
-                binding?.srlRefresh?.isRefreshing = loadStates.refresh is LoadState.Loading
-                when (loadStates.refresh) {
-                    is LoadState.Loading -> {
-                        binding?.mtvStates?.text = getString(R.string.state, "Loading...")
-                    }
-
-                    is LoadState.NotLoading -> {
-                        binding?.progressBar?.visibility = View.GONE
-                        binding?.mtvStates?.text = getString(R.string.state, "Completed")
-                    }
-
-                    is LoadState.Error -> {
-                        val errorState = loadStates.refresh as LoadState.Error
-                        binding?.mtvStates?.text = getString(R.string.state, "Error: ${errorState.error}")
-                    }
-                }
-            }
+        galleryViewModel.photosLiveData.observe(viewLifecycleOwner) {
+            Log.d(TAG, "initObserver: called")
+            binding?.progressBar?.visibility = View.GONE
+            adapterSingleSelection.submitList(it)
         }
     }
 

@@ -1,4 +1,5 @@
 package dev.pegasus.mediastoreapi.ui.general.helper.paging
+/*
 
 import android.content.ContentResolver
 import android.content.ContentUris
@@ -16,13 +17,15 @@ import dev.pegasus.mediastoreapi.ui.general.helper.utils.ConversionUtils
 import java.io.File
 import java.lang.NullPointerException
 
+*/
 /**
  * @Author: SOHAIB AHMED
  * @Date: 01-01-2024
  * @Accounts
  *      -> https://github.com/epegasus
  *      -> https://stackoverflow.com/users/20440272/sohaib-ahmed
- */
+ *//*
+
 
 class PhotoPagingSource(private val contentResolver: ContentResolver, private val conversionUtils: ConversionUtils) : PagingSource<Int, Photo>() {
 
@@ -133,4 +136,4 @@ class PhotoPagingSource(private val contentResolver: ContentResolver, private va
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
-}
+}*/

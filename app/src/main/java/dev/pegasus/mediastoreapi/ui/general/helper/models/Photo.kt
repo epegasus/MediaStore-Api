@@ -15,15 +15,5 @@ import java.io.File
 
 @Parcelize
 data class Photo(
-    val id: String,
-    var file: File,
-    var fileUri: Uri,
-    var fileName: String,
-    var creationDateTime: String,
-    var modifiedDateTime: String,
-    var fileSize: String,
-    var creationTimestamp: Long,
-    var modifiedTimestamp: Long,
-    var fileSizeBytes: Long,
-    var isSelected: Int = 0
+    var filePath: String,
 ) : Parcelable
