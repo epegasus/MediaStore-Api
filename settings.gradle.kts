@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "MediaStore Api"
 include(":app")
-include(":mediaStore")
