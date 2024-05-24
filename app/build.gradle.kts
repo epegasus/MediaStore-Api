@@ -58,4 +58,6 @@ dependencies {
 
     // SwipeRefreshLayout
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.picasso)
+    implementation(libs.coil)
 }

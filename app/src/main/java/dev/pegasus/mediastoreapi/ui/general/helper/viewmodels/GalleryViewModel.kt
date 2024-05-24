@@ -44,13 +44,7 @@ class GalleryViewModel(private val application: Application) : AndroidViewModel(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 }
 
-                val projection = arrayOf(
-                    MediaStore.Images.Media._ID,
-                    MediaStore.Images.Media.DATA,
-                    MediaStore.Images.Media.DATE_ADDED,
-                    MediaStore.Images.Media.DATE_MODIFIED,
-                    MediaStore.Images.Media.SIZE
-                )
+                val projection = arrayOf(MediaStore.Images.Media.DATA)
                 val orderBy = MediaStore.Images.Media.DATE_MODIFIED + " DESC"
                 val cursor: Cursor? = application.applicationContext.contentResolver.query(
                     uri,
@@ -61,15 +55,9 @@ class GalleryViewModel(private val application: Application) : AndroidViewModel(
                 )
 
                 cursor?.use { c ->
-                    val columnId = c.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
                     val columnData = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                    val columnAdded = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED)
-                    val columnModified = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED)
-                    val columnSize = c.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
-
                     while (c.moveToNext()) {
                         val filePath = c.getString(columnData)
-
                         val photo = Photo(filePath = filePath)
                         photos.add(photo)
                     }

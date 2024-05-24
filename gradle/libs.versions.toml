@@ -15,6 +15,8 @@ navigationFragmentKtx = "2.7.7"
 pagingRuntime = "3.3.0"
 glide = "4.16.0"
 swiperefreshlayout = "1.1.0"
+picasso = "2.71828"
+coil = "2.6.0"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -40,3 +42,5 @@ androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", 
 # Glide
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+picasso = { group = "com.squareup.picasso", name = "picasso", version.ref = "picasso" }
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }

@@ -17,7 +17,6 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.google.android.material.imageview.ShapeableImageView
 import dev.pegasus.mediastoreapi.R
 
-
 /**
  * @Author: SOHAIB AHMED
  * @Date: 01-01-2024

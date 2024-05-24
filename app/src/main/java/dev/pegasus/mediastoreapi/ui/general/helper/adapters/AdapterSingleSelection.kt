@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import dev.pegasus.mediastoreapi.databinding.ItemPhotoBinding
-import dev.pegasus.mediastoreapi.ui.general.helper.extensions.loadImage
 import dev.pegasus.mediastoreapi.ui.general.helper.models.Photo
 
 /**
@@ -27,7 +27,11 @@ class AdapterSingleSelection(private val callback: (photo: Photo) -> Unit) : Lis
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val currentItem = getItem(position)
 
-        holder.binding.ifvImageItemPhoto.loadImage(currentItem.filePath)
+        //Picasso.get().load(currentItem.filePath).into(holder.binding.ifvImageItemPhoto);
+        //holder.binding.ifvImageItemPhoto.loadImage(currentItem.filePath)
+        //binding.ifvImageItemPhoto.load(File(currentItem.filePath))
+
+        holder.binding.ifvImageItemPhoto.load(currentItem.filePath)
         holder.binding.root.setOnClickListener { callback.invoke(currentItem) }
     }
 
